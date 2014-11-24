@@ -1,7 +1,7 @@
 GTK-Demo-Examples
 =================
 
-Various GTK+3 demo examples and snippets.
+Various GTK+ demo examples and snippets.
 
 * Thread & Plot Demo using Cairo
 

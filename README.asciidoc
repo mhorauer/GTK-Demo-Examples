@@ -3,8 +3,9 @@ GTK-Demo-Examples
 
 Various GTK+ demo examples and snippets.
 
+* Cmd-line demo that shows how to rotate `*.png` images
 * Thread & Plot Demo using Cairo
 
 image:cairo_threads/screenshot.png[]
- 
+
 

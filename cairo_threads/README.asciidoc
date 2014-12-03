@@ -1,0 +1,9 @@
+Thread & Plot Demo
+==================
+
+This tiny demo program creates some data in a thread and a small GUI in a second thread that displays the data.
+
+image::screenshot.png[]
+
+
+

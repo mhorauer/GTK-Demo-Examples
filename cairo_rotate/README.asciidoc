@@ -1,0 +1,8 @@
+Image Rotate Demo
+=================
+
+This tiny cmd-line demo program shows how to rotate an image using cairo.
+
+
+
+

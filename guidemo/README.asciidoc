@@ -1,0 +1,105 @@
+= Simple GUI/GTK+3 Demo in C
+
+The following tutorial develops a primitive GUI application using GTK+3 in C.
+The following pointers provide essential information.
+
+* The `examples` folder in the https://git.gnome.org/browse/gtk+/tree/examples[GTK+ source tree].
+* http://www.gtk.org/documentation.php[Documentation @ GTK+ website]
+* http://developer.gnome.org[GNOME Developer Center]
+* devhelp (documentation browser for GTK+ and GNOME)
+* gtk3-demo (an application showing off various widgets along with the source code)
+
+== Setup (Fedora)
+
+....
+$ sudo yum install gtk3-devel
+....
+
+NOTE: For Windows or MAC OSX you may check the documentation on the http://www.gtk.org/download/index.php[GTK+ website].
+
+== Demo Application
+
+The following steps illustrate the creation of a simple application that shall allow data management of students for illustration purposes. The application itself will develop a simple GUI using GTK+ and manage the data using a linked list.
+
+=== Step 0 - Simple Greeter Demo
+This first two applications show both a greeter GtkApplication using a classic and a modern (in the sense of GNOME - using headerbars) application.
+
+* link:00_hello_world_classic.tar.gz[Classic Greeter Application]
+* link:00_hello_world_gnome.tar.gz[Greeter Application using Headerbars]
+
+=== Step 1 - Clickable Image
+Next, we start an empty application, add a +box+ container, and within this box we add a +gtk_image+ widget. In order to make this widget clickable, we overlay it with an +event_box+ and add a callback to it. In this callback function we implement a file chooser dialog: link:01_imgbutton.tar.gz["Clickable Image Btton"]
+
+image::clickable_image.png[align="center"]
+
+=== Step 2 - Input Form
+Now we add all the other +label+, and +entry+ widgets and add some +buttons+ below. The latter are connected with callbacks, one to clear all entry fields, one to quit the window and one that shall add the entered information to a linked list or something similar. We use +gtk_box+ and +gtk_grid+ layout container widgets to the window where we position all other widgets. Using +gtk_widget_size_request()+ we request minimum width and height of the various elements: link:02_dataentry.tar.gz["Simple Data Entry Form"]. A modified version of this program will later on serve as base for a custom dialog.
+
+NOTE: The screen-shot below shows the program with background highlights using `gtk-inspector` and CSS tweaks. For illustration purposes the grid as used to arrange the widgets was overlay-ed.
+
+image::dataentry.png[align="center"]
+
+=== Step 3 - Input Form Enhancements
+Now we add code to add some small polishing of the "Data Entry Form" we used in step 2. (1) Check whether the selected window has the correct size and only display it in case this is correct. Furthermore, we copy the file to a folder for later retrieval. In addition we add a +tooltip+ to guide the user how to interact with the button. In case the selected image does not fit the requirements, we display a "broken image". (2) We obtain the value for the +date+ label from the system time. (3) We construct the +Student ID+, and (3) we construct the eMail address. The last three values are written to the respective labels whenever we have entered values to the family entry widget: link:03_dataentry.tar.gz["Simple Data Entry Form Refined"]
+
+image::dataentry_refined.png[align="center"]
+
+
+=== Step 4 - GLib Linked List
+We experiment with a double-linked list and investigate how to add, sort, and print the list: link:04_glistdemo.tar.gz["GList Demo"]
+
+....
+$ ./glistdemo
+Name > Tom
+ Age > 15
+One more? (Y/N) > y
+Name > Eva
+ Age > 15
+One more? (Y/N) > y
+Name > Hank
+ Age > 17
+One more? (Y/N) > y
+Name > Anna
+ Age > 12
+One more? (Y/N) > n
+Length of the list 4
+Anna 12
+Eva 15
+Hank 17
+Tom 15
+....
+
+
+=== Step 5 - GLib List Demo with File I/O
+We enhance the +glist+ example to fit our data structure, split the code to several functions and add functionality to construct the list out of data stored in a CSV file: link:05_glistdemo.tar.gz["GList Demo Refined"]
+
+=== Step 6 - Traditional Menu
+The following code creates a traditional program with a menu and illustrates keyboard accelerators. link:06_classicmenu.tar.gz["Menu Demo"]
+
+image::classic.png[align="center"]
+
+
+=== Step 7 - GNOME Menu
+The following code creates a program with a menu according to the GNOME HIG along with keyboard accelerators. link:07_gnomemenu.tar.gz["GNOME Menu Demo"]
+
+image::gnomemenu.png[align="center"]
+
+=== Step 8 - Menus Combined
+We start integrating the different pieces to one solution. First off we integrate the _menu_ code with the intended _add dialog_. Therefore, we need to remove/modify some code of the latter since instead of a standalone window, the window now will become a dialog. Furthermore, we move some generic code to a library, add header files and adapt the Makefile. link:08_prgmockup.tar.gz["Combined Menu Demo"]
+
+image::prgmockup.png[align="center"]
+
+=== Step 9 - List Store
+The following code extends the application by adding scrollbars and a tree view widget: link:09_listview.tar.gz["List View Demo"] The code is mainly copied from the +gtk3-demo+ application -> Tree View -> List Store. In particular, I removed some functionality and add `g_list` code.
+
+image::listdemo.png[align="center"]
+
+
+=== Step 10 - Integration
+
+The final integration starts - this can get quite tricky sometimes, hence, a few tips about using the *GDB* debugger are in order. First ensure, that the code is built using *-g* to contain debug information (this is enabled in the Makefile). Next, built the program typing *make* and invoke the debugger, e.g., using *gdb ./stdMngmt -q*. All you need to know now is how to add breakpoints, execute the program and investigate variables. Use *b file.c:123* to set a break-point in +file.c+ in line +123+. Start the program using *r*, continue the execution using *c* and/or *s* to perform single steps. To investigate the value of variables use, e.g., `p (student *)(foo->data)->inDate` -- the typecasts can get quite intriguing.
+[red]#in progress#
+
+=== Step 11 - Add Help
+Finally we add some final touches to the program, e.g., by adding an about dialog and writing some help pages.
+[red]#in progress#

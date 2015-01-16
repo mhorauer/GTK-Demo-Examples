@@ -55,6 +55,9 @@ image::dataentry_refined.png[align="center"]
 
 
 === Step 4 - GLib Linked List
+
+WARNING: I think using a linked list parallel to a listview is bogus (unessecary redundant) and shall be removed in future.
+
 We experiment with a double-linked list and investigate how to add, sort, and print the list: link:04_glistdemo.tar.gz["GList Demo"]
 
 ....

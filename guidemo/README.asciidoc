@@ -33,7 +33,7 @@ This first two applications show both a greeter GtkApplication using a classic a
 
 image::greeter.png[align="center"]
 
-TIP: As ssen in the above example one efficient way to pass references to various widgets to callbacks is to group them in a `struct`, allocate and de-allocate memory for it in the main loop and pass it through the single `gpointer` parameter. In this way you can avoid using a lot of globals that may get hazar5dous in multithreaded applications.
+TIP: As seen in the above example an efficient way to pass references to various widgets to callbacks is to group them in a `struct`, allocate and de-allocate memory for it in the main loop and pass it through the single `gpointer` parameter. In this way you can avoid using a lot of global variables that may get hazardous in multithreaded applications.
 
 
 === Step 1 - Clickable Image

@@ -54,17 +54,27 @@ Type-Casts::
   
 [source,c]
 ----
-void button_callback(GtkWIdget *widget, gpointer user_data) 
+void button_callback(GtkWidget *widget, gpointer user_data) 
 {
+  /* shows a cast from gpointer back to gint */
   gint i = (gint)user_data;
+  
   /* ... */
 }
 
 int main(int argc, char *argv[]
 {
   gint i = 42;
+  GtkWidget *grid, *button;
+  
   /* ... */
+  
+  /* shows the cast of a GtkWidget to GtkGrid using GTK_GRID() */
+  gtk_grid_attach(GTK_GRID(grid),button,1,1,1,1);
+  
+  /* shows cast of GtkWidget to GObject and gint to gpointer */
   g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(button_callback), (gpointer)i);
+  
   /* ... */
 }
 ----

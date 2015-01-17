@@ -28,11 +28,11 @@ Work through and build a simple link:https://developer.gnome.org/gtk3/stable/gtk
 === Things to know and care about when using GTK+/GLib libraries
 
 Parameter Passing::
-  Often one needs to pass references to multiple widgets around (e.g. to a closure). Often, however, the number of 
+  Often one needs to pass references to multiple widgets around (e.g. to a closure). Often, however, the number of
   parameters is pre-defined (see the list below for typiocal closure layouts). Usually, there is one spare parameter
   of type `gpointer` that is intended to transport user data. Thus in order to transport multiple  references
   or user parameters at a time group them in a `struct`, allocate and de-allocate memory for it in the main loop and
-  pass them through the single `gpointer` parameter using respective C type casts (see the code in Step 0 and 
+  pass them through the single `gpointer` parameter using respective C type casts (see the code in Step 0 and
   also this http://stackoverflow.com/questions/22384333/passing-additional-arguments-to-gtk-function[link]).
 
 [source,c]
@@ -43,22 +43,22 @@ void some_action_callback(GSimpleAction *action, GVariant *parameter, gpointer u
 ----
 
 Type-Casts::
-  When programming GTK+ applications in C a lot of type casts are mandatory. Instead of using the common explicit C 
+  When programming GTK+ applications in C a lot of type casts are mandatory. Instead of using the common explicit C
   type-casts one should use the type cast functions provided by the respective GObjects since these provide additional
-  checks and issue warnings when a type-cast doesn't make sense/work. The convenient convention is to use the name of 
-  the target type (typically written in camel case) all in upper-case letters where the tokens/words are separated by 
+  checks and issue warnings when a type-cast doesn't make sense/work. The convenient convention is to use the name of
+  the target type (typically written in camel case) all in upper-case letters where the tokens/words are separated by
   underscores. For instance, if a function requests a type `GtkBox` and your variable `box` is of type `GtkWidget` you
-  can perform the type-cast using `GTK_BOX(box)`. There are some exceptions to this rule, however, for example when 
-  dealing with `gpointer` - here a fallback to the comnventional explicit C type-cast is required, see the example 
+  can perform the type-cast using `GTK_BOX(box)`. There are some exceptions to this rule, however, for example when
+  dealing with `gpointer` - here a fallback to the comnventional explicit C type-cast is required, see the example
   snippet below.
-  
+
 [source,c]
 ----
-void button_callback(GtkWidget *widget, gpointer user_data) 
+void button_callback(GtkWidget *widget, gpointer user_data)
 {
   /* shows a cast from gpointer back to gint */
   gint i = (gint)user_data;
-  
+
   /* ... */
 }
 
@@ -66,16 +66,16 @@ int main(int argc, char *argv[]
 {
   gint i = 42;
   GtkWidget *grid, *button;
-  
+
   /* ... */
-  
+
   /* shows the cast of a GtkWidget to GtkGrid using GTK_GRID() */
   gtk_grid_attach(GTK_GRID(grid),button,1,1,1,1);
-  
+
   /* shows a cast from GtkWidget to GObject using G_OBJECT() and a cast from
      gint to gpointer using an explicit C type-cast */
   g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(button_callback), (gpointer)i);
-  
+
   /* ... */
 }
 ----
@@ -105,65 +105,33 @@ Now we add code to add some small polishing of the "Data Entry Form" we used in 
 
 image::dataentry_refined.png[align="center"]
 
-
-=== Step 4 - GLib Linked List
-
-WARNING: I think using a linked list parallel to a listview is bogus (unessecary redundant) and shall be removed in future.
-
-We experiment with a double-linked list and investigate how to add, sort, and print the list: link:04_glistdemo.tar.gz["GList Demo"]
-
-....
-$ ./glistdemo
-Name > Tom
- Age > 15
-One more? (Y/N) > y
-Name > Eva
- Age > 15
-One more? (Y/N) > y
-Name > Hank
- Age > 17
-One more? (Y/N) > y
-Name > Anna
- Age > 12
-One more? (Y/N) > n
-Length of the list 4
-Anna 12
-Eva 15
-Hank 17
-Tom 15
-....
-
-
-=== Step 5 - GLib List Demo with File I/O
-We enhance the +glist+ example to fit our data structure, split the code to several functions and add functionality to construct the list out of data stored in a CSV file: link:05_glistdemo.tar.gz["GList Demo Refined"]
-
-=== Step 6 - Traditional Menu
-The following code creates a traditional program with a menu and illustrates keyboard accelerators. link:06_classicmenu.tar.gz["Menu Demo"]
+=== Step 4 - Traditional Menu
+The following code creates a traditional program with a menu and illustrates keyboard accelerators. link:04_classicmenu.tar.gz["Menu Demo"]
 
 image::classic.png[align="center"]
 
 
-=== Step 7 - GNOME Menu
-The following code creates a program with a menu according to the GNOME HIG along with keyboard accelerators. link:07_gnomemenu.tar.gz["GNOME Menu Demo"]
+=== Step 5 - GNOME Menu
+The following code creates a program with a menu according to the GNOME HIG along with keyboard accelerators. link:05_gnomemenu.tar.gz["GNOME Menu Demo"]
 
 image::gnomemenu.png[align="center"]
 
-=== Step 8 - Menus Combined
-We start integrating the different pieces to one solution. First off we integrate the _menu_ code with the intended _add dialog_. Therefore, we need to remove/modify some code of the latter since instead of a standalone window, the window now will become a dialog. Furthermore, we move some generic code to a library, add header files and adapt the Makefile. link:08_prgmockup.tar.gz["Combined Menu Demo"]
+=== Step 6 - Menus Combined
+We start integrating the different pieces to one solution. First off we integrate the _menu_ code with the intended _add dialog_. Therefore, we need to remove/modify some code of the latter since instead of a standalone window, the window now will become a dialog. Furthermore, we move some generic code to a library, add header files and adapt the Makefile. link:06_prgmockup.tar.gz["Combined Menu Demo"]
 
 image::prgmockup.png[align="center"]
 
-=== Step 9 - List Store
-The following code extends the application by adding scrollbars and a tree view widget: link:09_listview.tar.gz["List View Demo"] The code is mainly copied from the +gtk3-demo+ application -> Tree View -> List Store. In particular, I removed some functionality and add `g_list` code.
+=== Step 7 - List Store
+The following code extends the application by adding scrollbars and a tree view widget: link:07_listview.tar.gz["List View Demo"]. The code is mainly copied from the +gtk3-demo+ application -> Tree View -> List Store and slightly modified.
 
 image::listdemo.png[align="center"]
 
 
-=== Step 10 - Integration
+=== Step 8 - Integration
 
 The final integration starts - this can get quite tricky sometimes, hence, a few tips about using the *GDB* debugger are in order. First ensure, that the code is built using *-g* to contain debug information (this is enabled in the Makefile). Next, built the program typing *make* and invoke the debugger, e.g., using *gdb ./stdMngmt -q*. All you need to know now is how to add breakpoints, execute the program and investigate variables. Use *b file.c:123* to set a break-point in +file.c+ in line +123+. Start the program using *r*, continue the execution using *c* and/or *s* to perform single steps. To investigate the value of variables use, e.g., `p (student *)(foo->data)->inDate` -- the typecasts can get quite intriguing.
 [red]#in progress#
 
-=== Step 11 - Add Help
+=== Step 9 - Add Help
 Finally we add some final touches to the program, e.g., by adding an about dialog and writing some help pages.
 [red]#in progress#

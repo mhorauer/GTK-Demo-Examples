@@ -21,9 +21,54 @@ NOTE: For Windows or MAC OSX you may check the documentation on the http://www.g
 
 The following steps illustrate the creation of a simple application that shall allow data management of students for illustration purposes. The application itself will develop a simple GUI using GTK+ and manage the data using a linked list.
 
-=== Prerequisite
+=== Prerequisites
 
 Work through and build a simple link:https://developer.gnome.org/gtk3/stable/gtk-getting-started.html[Getting Started] application.
+
+=== Things to know and care about when using GTK+/GLib libraries
+
+Parameter Passing::
+  Often one needs to pass references to multiple widgets around (e.g. to a closure). Often, however, the number of 
+  parameters is pre-defined (see the list below for typiocal closure layouts). Usually, there is one spare parameter
+  of type `gpointer` that is intended to transport user data. Thus in order to transport multiple  references
+  or user parameters at a time group them in a `struct`, allocate and de-allocate memory for it in the main loop and
+  pass them through the single `gpointer` parameter using respective C type casts (see the code in Step 0 and 
+  also this http://stackoverflow.com/questions/22384333/passing-additional-arguments-to-gtk-function[link]).
+
+[source,c]
+----
+void some_widget_callback(GtkWidget *widget, gpointer user_data);
+gboolean some_gdk_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
+void some_action_callback(GSimpleAction *action, GVariant *parameter, gpointer user_data);
+----
+
+Type-Casts::
+  When programming GTK+ applications in C a lot of type casts are mandatory. Instead of using the common explicit C 
+  type-casts one should use the type cast functions provided by the respective GObjects since these provide additional
+  checks and issue warnings when a type-cast doesn't make sense/work. The convenient convention is to use the name of 
+  the target type (typically written in camel case) all in upper-case letters where the tokens/words are separated by 
+  underscores. For instance, if a function requests a type `GtkBox` and your variable `box` is of type `GtkWidget` you
+  can perform the type-cast using `GTK_BOX(box)`. There are some exceptions to this rule, however, for example when 
+  dealing with `gpointer` - here a fallback to the comnventional explicit C type-cast is required, see the example 
+  snippet below.
+  
+[source,c]
+----
+void button_callback(GtkWIdget *widget, gpointer user_data) 
+{
+  gint i = (gint)user_data;
+  /* ... */
+}
+
+int main(int argc, char *argv[]
+{
+  gint i = 42;
+  /* ... */
+  g_signal_connect(G_OBJECT(button), "clicked",
+                   G_CALLBACK(button_callback), (gpointer)i);
+  /* ... */
+}
+----
 
 === Step 0 - Simple Greeter Demo
 This first two applications show both a greeter GtkApplication using a classic and a modern (in the sense of GNOME - using headerbars) application.
@@ -32,9 +77,6 @@ This first two applications show both a greeter GtkApplication using a classic a
 * link:00_hello_world_gnome.tar.gz[Greeter Application using Headerbars]
 
 image::greeter.png[align="center"]
-
-TIP: As seen in the above example an efficient way to pass references to various widgets to callbacks is to group them in a `struct`, allocate and de-allocate memory for it in the main loop and pass it through the single `gpointer` parameter. In this way you can avoid using a lot of global variables that may get hazardous in multithreaded applications.
-
 
 === Step 1 - Clickable Image
 Next, we start an empty application, add a +box+ container, and within this box we add a +gtk_image+ widget. In order to make this widget clickable, we overlay it with an +event_box+ and add a callback to it. In this callback function we implement a file chooser dialog: link:01_imgbutton.tar.gz["Clickable Image Btton"]

@@ -86,45 +86,45 @@ This first two applications show both a greeter GtkApplication using a classic a
 * link:00_hello_world_classic.tar.gz[Classic Greeter Application]
 * link:00_hello_world_gnome.tar.gz[Greeter Application using Headerbars]
 
-image::greeter.png[align="center"]
+image::img/greeter.png[align="center"]
 
 === Step 1 - Clickable Image
 Next, we start an empty application, add a +box+ container, and within this box we add a +gtk_image+ widget. In order to make this widget clickable, we overlay it with an +event_box+ and add a callback to it. In this callback function we implement a file chooser dialog: link:01_imgbutton.tar.gz["Clickable Image Btton"]
 
-image::clickable_image.png[align="center"]
+image::img/clickable_image.png[align="center"]
 
 === Step 2 - Input Form
 Now we add all the other +label+, and +entry+ widgets and add some +buttons+ below. The latter are connected with callbacks, one to clear all entry fields, one to quit the window and one that shall add the entered information to a linked list or something similar. We use +gtk_box+ and +gtk_grid+ layout container widgets to the window where we position all other widgets. Using +gtk_widget_size_request()+ we request minimum width and height of the various elements: link:02_dataentry.tar.gz["Simple Data Entry Form"]. A modified version of this program will later on serve as base for a custom dialog.
 
 NOTE: The screen-shot below shows the program with background highlights using `gtk-inspector` and CSS tweaks. For illustration purposes the grid as used to arrange the widgets was overlay-ed.
 
-image::dataentry.png[align="center"]
+image::img/dataentry.png[align="center"]
 
 === Step 3 - Input Form Enhancements
 Now we add code to add some small polishing of the "Data Entry Form" we used in step 2. (1) Check whether the selected window has the correct size and only display it in case this is correct. Furthermore, we copy the file to a folder for later retrieval. In addition we add a +tooltip+ to guide the user how to interact with the button. In case the selected image does not fit the requirements, we display a "broken image". (2) We obtain the value for the +date+ label from the system time. (3) We construct the +Student ID+, and (3) we construct the eMail address. The last three values are written to the respective labels whenever we have entered values to the family entry widget: link:03_dataentry.tar.gz["Simple Data Entry Form Refined"]
 
-image::dataentry_refined.png[align="center"]
+image::img/dataentry_refined.png[align="center"]
 
 === Step 4 - Traditional Menu
 The following code creates a traditional program with a menu and illustrates keyboard accelerators. link:04_classicmenu.tar.gz["Menu Demo"]
 
-image::classic.png[align="center"]
+image::img/classic.png[align="center"]
 
 
 === Step 5 - GNOME Menu
 The following code creates a program with a menu according to the GNOME HIG along with keyboard accelerators. link:05_gnomemenu.tar.gz["GNOME Menu Demo"]
 
-image::gnomemenu.png[align="center"]
+image::img/gnomemenu.png[align="center"]
 
 === Step 6 - Menus Combined
 We start integrating the different pieces to one solution. First off we integrate the _menu_ code with the intended _add dialog_. Therefore, we need to remove/modify some code of the latter since instead of a standalone window, the window now will become a dialog. Furthermore, we move some generic code to a library, add header files and adapt the Makefile. link:06_prgmockup.tar.gz["Combined Menu Demo"]
 
-image::prgmockup.png[align="center"]
+image::img/prgmockup.png[align="center"]
 
 === Step 7 - List Store
 The following code extends the application by adding scrollbars and a tree view widget: link:07_listview.tar.gz["List View Demo"]. The code is mainly copied from the +gtk3-demo+ application -> Tree View -> List Store and slightly modified.
 
-image::listdemo.png[align="center"]
+image::img/listdemo.png[align="center"]
 
 
 === Step 8 - Integration

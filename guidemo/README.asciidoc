@@ -72,8 +72,8 @@ int main(int argc, char *argv[]
   /* shows the cast of a GtkWidget to GtkGrid using GTK_GRID() */
   gtk_grid_attach(GTK_GRID(grid),button,1,1,1,1);
   
-  /* shows cast of GtkWidget to GObject using G_OBJECT() and gint to gpointer using an explicit 
-     C type-cast */
+  /* shows a cast from GtkWidget to GObject using G_OBJECT() and a cast from
+     gint to gpointer using an explicit C type-cast */
   g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(button_callback), (gpointer)i);
   
   /* ... */

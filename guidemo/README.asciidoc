@@ -122,7 +122,7 @@ We start integrating the different pieces to one solution. First off we integrat
 image::img/prgmockup.png[align="center"]
 
 === Step 7 - List Store
-The following code extends the application by adding scrollbars and a tree view widget: link:07_listview.tar.gz["List View Demo"]. The code is mainly copied from the +gtk3-demo+ application -> Tree View -> List Store and slightly modified.
+The following code extends the application by adding scrollbars and a tree view widget: link:07_listview.tar.gz["List View Demo"]. The code is mainly copied from the +gtk3-demo+ application -> Tree View -> List Store and slightly modified. Also checkout information on http://en.wikibooks.org/wiki/GTK%2B_By_Example/Tree_View/Tree_Models[Wikipedia].
 
 image::img/listdemo.png[align="center"]
 

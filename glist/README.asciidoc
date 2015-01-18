@@ -1,8 +1,6 @@
 === Step 1 - GLib Linked List
 
-WARNING: I think using a linked list parallel to a listview is bogus (unessecary redundant) and shall be removed in future.
-
-We experiment with a double-linked list and investigate how to add, sort, and print the list: link:01_glistdemo.tar.gz["GList Demo"]
+The following program creates and prints a very basic linked list using the GLib library: link:01_glistdemo.tar.gz["GList Demo"]
 
 ....
 $ ./glistdemo
@@ -25,6 +23,5 @@ Hank 17
 Tom 15
 ....
 
-
 === Step 2 - GLib List Demo with File I/O
-We enhance the +glist+ example to fit our data structure, split the code to several functions and add functionality to construct the list out of data stored in a CSV file: link:02_glistdemo.tar.gz["GList Demo Refined"]
+The following code extends the basic demo from step 1 with basic file-IO: link:02_glistdemo.tar.gz["GList Demo Refined"]

@@ -1,0 +1,16 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="guide"
+      id="index">
+    <title>Book Management Demo</title>
+      <synopsis>
+        <p>The purpose of this demo program is to illustrate the creation of a small GTK+3 application using the C language. </p>
+    </synopsis>
+    <note>
+    <p>The main window consists of a menubar, a scrollable content area made up with a listview, an image view, and a small status bar. The menu features basic File, Edit, and Help menus, respectively. The listview area display data about books that can be added or deleted via the menu and directly edited in the listview. This contant can also be loaded from or sdaved to a <em>.csv</em> or <em>.txt</em> file. The statusbar displays the number of rows in the list and the currently selected one.</p>
+    </note>
+    <media type="image" src="mainshot.png"/>
+    <info>
+      <link type="topic" xref="listview"/>
+      <link type="topic" xref="help"/>
+    </info>
+</page>

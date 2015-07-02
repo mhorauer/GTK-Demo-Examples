@@ -1,0 +1,18 @@
+<page xmlns="http://projectmallard.org/1.0/"
+    type="topic"
+    id="help">
+
+  <info>    
+    <link type="guide" xref="index"/>
+    <link type="topic" xref="listview"/>
+  </info>
+
+  <title>Help System</title>
+
+  <synopsis>
+    <p>Help for Gnome, GTK+ applications is written using the markup language Mallard.
+    </p> 
+  </synopsis>
+  <note><p>Checkout information at: http://projectmallard.org/</p></note>
+  <media type="image" src="mallard-logo.png"/>
+</page>

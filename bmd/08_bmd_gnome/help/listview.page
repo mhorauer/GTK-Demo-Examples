@@ -1,0 +1,26 @@
+<page xmlns="http://projectmallard.org/1.0/"
+    type="topic"
+    id="listview">
+
+  <info>    
+    <link type="guide" xref="index"/>
+    <link type="topic" xref="help"/>
+  </info>
+
+  <title>Usage</title>
+
+  <synopsis>
+    <p>Contents to the listview can be loaded via the File -> Open dialog using either <em>.csv</em> or <em>.txt</em> files. Individual rows can be added/deleted via the menu or the keyboard shortcuts CTRL+A or CTRL+D and directly edited within the listview. 
+    </p>
+  </synopsis>
+  <media type="image" src="todo.png"/>
+  <section id="important">
+    <title>Important Points</title>
+    <steps>
+      <item><p>Data contained in this files must be in the correct format - one row at a line using the format: NUMBER,AUTHOR NAME,TITLE,PAGES,IMAGE FILE NAME</p></item>
+      <item><p>Large files with several thousand entries will take some time to load.</p></item>
+      <item><p>Row numbers need to be edited manually - there is no automated numbering.</p></item>
+      <item><p>etc.</p></item>
+    </steps>
+  </section>  
+</page>

@@ -1,0 +1,173 @@
+////////////////////////////////////////////////////////////////////////////////
+Build: asciidoctor notes.asciidoc
+Author: M. Horauer
+////////////////////////////////////////////////////////////////////////////////
+
+Howto make gtk3-demo programs stand-alone
+=========================================
+:title: BEL2 SUA
+:description: Linux/Unix System Programming, Network Programming, Python, Graphical User Interfaces
+:footer: Martin Horauer
+:brand: UAS Technikum Wien
+:doctype: book
+:toc: right
+:icons: font
+:nofooter:
+
+In order to better evaluate programs and functionality shown in the `gtk3-demo` program (the code is available from the https://git.gnome.org/browse/gtk+/tree/demos/gtk-demo[GTK+ sources]) it is convenient to make them standalone. Esentially one needs to add a `main()` function that invokes the respective `do_XXX()` function of every demo program - checkout this http://stackoverflow.com/questions/2749329/how-do-i-run-gtk-demos[post] on http://www.stackoverflow.com[].
+
+== Option 1
+
+This approach constructs a single-threaded application.
+
+Step 1::
+  Launch `gtk3-demo`, select and copy the source from one of the examples, e.g., the one from the +Info bar+ example and paste it into a new C-file named `example.c`.
+
+Step 2::
+  Add the following `main()` function at the bottom of the file.
+
+[source,c]
+----
+int
+main(int argc, char **argv)
+{
+    GtkWidget *window;
+
+    gtk_init(&argc, &argv);
+    // Adjust the function calnext line!!!!
+    window = do_infobar(NULL); 
+    g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+    gtk_main();
+    return 0;
+}
+----
+
+Step 3::
+  Build and execute the example.
+
+....
+gcc example.c -o example `pkg-config --cflags --libs gtk+-3.0` -Wall -g
+./example
+....
+
+NOTE: You'll encounter some warnings when executing the program. Usually these can be ignored for most of the time.
+
+== Option 2
+
+This approach is based on the `gtk_application_class()` and builds a multi-threaded application.
+
+Step 1::
+ch `gtk3-demo`, select and copy the source from one of the examples, e.g., the one from the +Info bar+ example and paste it into a new C-file named `example.c`.
+
+Steep 2::
+  Add the following `main()` function at the bottom of the file.
+  
+[source,c]
+----
+int
+main (int    argc,
+      char **argv)
+{
+  GtkApplication *app;
+  int status;
+
+  // create a threaded application
+  app = gtk_application_new (NULL, G_APPLICATION_FLAGS_NONE);
+  g_signal_connect (app, "activate", G_CALLBACK (bmd_activate), NULL);
+  // run the application -> emits an "activate" signal
+  status = g_application_run (G_APPLICATION (app), argc, argv);
+  g_object_unref (app);
+
+  return status;
+}
+----
+
+Step 3::
+  Replace the function declaration of the `do_XXX()` function with the following snippet, in particular replace
+    
+[source,c]
+----
+GtkWidget *
+do_infobar (GtkWidget *do_widget)
+{
+----
+
+with
+
+[source,c]
+----
+static void
+bmd_activate (GtkApplication* app, gpointer user_data)
+{
+----
+
+Step 4::
+  Remove
+
+[source,c]
+----
+  if (!window)
+    {
+----
+
+Step 5::
+  Replace 
+
+[source,c]
+----
+window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+----
+
+with
+
+[source,c]
+----
+window = gtk_application_window_new (app);
+----
+
+Step 6::
+  Comment the function `gtk_window_set_screen()` as shown below
+
+[source,c]
+----
+//gtk_window_set_screen (GTK_WINDOW (window),
+//                       gtk_widget_get_screen (do_widget));
+----
+
+Step 7::
+  At the bottom of the function, replace
+
+[source,c]
+----
+    }
+
+  if (!gtk_widget_get_visible (window))
+    {
+    k_widget_show_all (window);
+      else
+    {
+      gtk_widget_destroy (window);
+      window = NULL;
+    }
+
+  return window;
+----
+
+with 
+
+[source,c]
+----
+gtk_widget_show_all (window);
+----
+
+Step 8::
+  Build and execute the example.
+
+....
+gcc example.c -o example `pkg-config --cflags --libs gtk+-3.0` -Wall -g
+./example
+....
+
+////////////////////////////////////////////////////////////////////////////////
+EOF
+////////////////////////////////////////////////////////////////////////////////
